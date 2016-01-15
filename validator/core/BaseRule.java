@@ -44,12 +44,27 @@ public abstract class BaseRule implements Rule {
 	
 	@Override
 	public String getError() {
-		return this.error;
+		return this.error == null ? "" : this.error;
+	}
+	
+	@Override
+	public String getDefaultMessage() {
+		return this.defaultMessage();
+	}
+	
+	@Override
+	public String getUnparsedMessage() {
+		return this.message == null ? this.defaultMessage() : this.message;
 	}
 	
 	@Override
 	public void setMessage(String message) {
 		this.message = message;
+	}
+	
+	@Override
+	public String getValue() {
+		return this.ruleValue;
 	}
 	
 	@Override

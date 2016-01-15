@@ -1,5 +1,6 @@
 package validator.core;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -10,6 +11,10 @@ public class MapRequest implements Request {
 
 	Map<String, String> request;
 
+	public MapRequest() {
+		this.request = new HashMap<String, String>();
+	}
+	
 	public MapRequest(Map<String, String> request) {
 		this.request = request;
 	}
@@ -26,7 +31,7 @@ public class MapRequest implements Request {
 
 	@Override
 	public boolean containsKey(String key) {
-		return this.request.containsValue(key);
+		return this.request.containsKey(key);
 	}
 
 	@Override

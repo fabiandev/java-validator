@@ -6,7 +6,9 @@ public class TestRule1 extends BaseRule {
 
 	@Override
 	protected void validate() {
-		
+		if (this.inputField.getValue().isEmpty()) {
+			this.fail();
+		}
 	}
 
 	@Override

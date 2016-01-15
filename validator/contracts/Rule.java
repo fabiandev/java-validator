@@ -15,5 +15,11 @@ public interface Rule {
 	void setMessage(String message);
 
 	String toString();
+	
+	String getDefaultMessage();
+	
+	String getUnparsedMessage();
+	
+	String getValue();
 
 }
