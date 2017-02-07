@@ -32,6 +32,8 @@ System.out.println("Validation passed!");
 
 # Extending
 
+Find two basic examples of how to create custom rules below.
+
 ## Standard Rule
 
 ```java
@@ -40,16 +42,17 @@ import validator.core.BaseRule;
 public class MyRule extends BaseRule {
 
   @Override
-	protected void validate() {
-	  // Get the input field: this.inputField
-	  // Get all input fields: this.inputFields
-		// Call this.fail() if validation doesn't pass
-	}
+    protected void validate() {
+    // Get the input field's value: this.inputField.getValue()
+    // Get all input fields: this.inputFields
+    // Get the rule parameter: this.ruleValue
+    // Call this.fail() if validation doesn't pass
+    }
 
-	@Override
-	protected String defaultMessage() {
-		return ":field can include :my_rule placeholders for the parameter.";
-	}
+    @Override
+    protected String defaultMessage() {
+        return ":field can include :my_rule placeholders for the parameter.";
+    }
 
 }
 ```
@@ -61,15 +64,15 @@ import validator.rules.Regex;
 
 public class Everything extends Regex {
 
-	@Override
-	protected String regex() {
-		return "^.*$";
-	}
+    @Override
+    protected String regex() {
+        return "^.*$";
+    }
 
-	@Override
-	protected String defaultMessage() {
-		return ":field did not pass the everything rule.";
-	}
+    @Override
+    protected String defaultMessage() {
+        return ":field did not pass the everything rule.";
+    }
 
 }
 ```
