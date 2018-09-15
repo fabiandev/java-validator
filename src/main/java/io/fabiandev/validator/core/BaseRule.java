@@ -81,7 +81,7 @@ public abstract class BaseRule implements Rule
     @Override
     public String toString()
     {
-        return RuleManager.getRuleName(this.getClass());
+        return RulesManager.getRuleName(this.getClass());
     }
 
     private String parseMessage(String message)

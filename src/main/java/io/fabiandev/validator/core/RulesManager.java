@@ -10,39 +10,46 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RuleManager
+public class RulesManager
 {
-    private Map<String, Class<Rule>> rules = new HashMap<String, Class<Rule>>();
+    private static final Map<String, Class<Rule>> rules = new HashMap<>();
 
-    public RuleManager()
+    private RulesManager()
     {
 
     }
 
-    public RuleManager(String packageName)
+    public static void reset()
     {
-        this.addRulesFromPackage(packageName);
+        rules.clear();
     }
 
-    public Map<String, Class<Rule>> getRules()
+    public static Map<String, Class<Rule>> getRules()
     {
-        return this.rules;
+        return rules;
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Rule> Class<Rule> addRule(Class<T> rule)
+    public static <T extends Rule> Class<Rule> addRule(Class<T> rule)
     {
-        return this.rules.put(getRuleName(rule), (Class<Rule>) rule);
+        String ruleName = getRuleName(rule);
+
+        if (hasRule(ruleName))
+        {
+            return null;
+        }
+
+        return rules.put(getRuleName(rule), (Class<Rule>) rule);
     }
 
-    public final int addRules(Class<? extends Rule>... rules)
+    public static int addRules(Class<? extends Rule>... rules)
     {
         int addedRules = 0;
 
         for (Class<? extends Rule> rule : rules)
         {
 
-            if (this.addRule(rule) != null)
+            if (addRule(rule) != null)
             {
                 addedRules++;
             }
@@ -51,7 +58,7 @@ public class RuleManager
         return addedRules;
     }
 
-    public boolean addRulesFromPackage(String packageName)
+    public static boolean addRulesFromPackage(String packageName)
     {
         RulesScanner scanner = RulesScanner.getInstance();
 
@@ -61,7 +68,7 @@ public class RuleManager
 
             for (Class<Rule> rule : ruleList)
             {
-                this.rules.put(getRuleName(rule), rule);
+                addRule(rule);
             }
         }
         catch (ClassNotFoundException | IllegalAccessException e)
@@ -77,14 +84,14 @@ public class RuleManager
         return StringHelper.camelToSnakeCase(rule.getSimpleName());
     }
 
-    public boolean hasRule(String rule)
+    public static boolean hasRule(String rule)
     {
-        return this.rules.containsKey(rule);
+        return rules.containsKey(rule);
     }
 
-    public int numRules()
+    public static int numRules()
     {
-        return this.rules.size();
+        return rules.size();
     }
 
     public static String getIdentifier(String fieldName, String ruleName)
@@ -92,14 +99,14 @@ public class RuleManager
         return fieldName + "." + ruleName;
     }
 
-    public Rule make(String ruleName, String ruleValue, Map<String, Field> inputFields, String fieldName, String message)
+    public static Rule make(String ruleName, String ruleValue, Map<String, Field> inputFields, String fieldName, String message)
     {
-        if (this.hasRule(ruleName))
+        if (hasRule(ruleName))
         {
             Rule ruleInstance;
             try
             {
-                ruleInstance = this.rules.get(ruleName).getConstructor().newInstance();
+                ruleInstance = rules.get(ruleName).getConstructor().newInstance();
                 ruleInstance.setData(inputFields, fieldName, ruleValue, message);
                 return ruleInstance;
             }
@@ -113,9 +120,9 @@ public class RuleManager
         return null;
     }
 
-    public Rule make(String ruleName, String ruleValue, Map<String, Field> inputFields, String fieldName)
+    public static Rule make(String ruleName, String ruleValue, Map<String, Field> inputFields, String fieldName)
     {
-        return this.make(ruleName, ruleValue, inputFields, fieldName, null);
+        return make(ruleName, ruleValue, inputFields, fieldName, null);
     }
 
 }

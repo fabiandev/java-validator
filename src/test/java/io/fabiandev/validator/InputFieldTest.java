@@ -4,7 +4,7 @@ import io.fabiandev.validator.contracts.Bag;
 import io.fabiandev.validator.contracts.Field;
 import io.fabiandev.validator.contracts.Rule;
 import io.fabiandev.validator.core.InputField;
-import io.fabiandev.validator.core.RuleManager;
+import io.fabiandev.validator.core.RulesManager;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,8 +20,6 @@ public class InputFieldTest
 {
     private static final String RULES_PACKAGE = "io.fabiandev.validator.mock";
 
-    private RuleManager ruleManager;
-
     private Rule rule1;
     private Rule rule2;
 
@@ -31,7 +29,7 @@ public class InputFieldTest
     @Before
     public void createInputField()
     {
-        this.ruleManager = new RuleManager(RULES_PACKAGE);
+        RulesManager.addRulesFromPackage(RULES_PACKAGE);
 
         Map<String, Field> inputFields = new HashMap<String, Field>();
 
@@ -39,8 +37,8 @@ public class InputFieldTest
 
         inputFields.put(field1.getKey(), field1);
 
-        this.rule1 = this.ruleManager.make("test_rule1", null, inputFields, field1.getKey());
-        this.rule2 = this.ruleManager.make("test_rule2", null, inputFields, field1.getKey());
+        this.rule1 = RulesManager.make("test_rule1", null, inputFields, field1.getKey());
+        this.rule2 = RulesManager.make("test_rule2", null, inputFields, field1.getKey());
 
         this.inputFieldWithoutValue = new InputField("test");
         this.inputFieldWithValue = new InputField("test2", "value");

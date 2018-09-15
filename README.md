@@ -32,7 +32,13 @@ System.out.println("Validation passed!");
 
 # Extending
 
-Find two basic examples of how to create custom rules below.
+Find two basic examples of how to create custom rules below, and add them to the `RulesManager`:
+
+```java
+import io.fabiandev.validator.core.RulesManager;
+
+RulesManager.addRule(MyRule.class);
+```
 
 ## Standard Rule
 

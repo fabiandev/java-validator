@@ -85,7 +85,7 @@ public class InputField implements Field
             Rule rule = entry.getValue();
             if (rule.fails())
             {
-                errors.add(RuleManager.getIdentifier(this.fieldName, rule.toString()), rule.getError());
+                errors.add(RulesManager.getIdentifier(this.fieldName, rule.toString()), rule.getError());
             }
         }
 
