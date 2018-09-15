@@ -5,9 +5,9 @@ A simple and extensible validation utility for Java.
 # Usage
 
 ```java
-import validator.contracts.Validator;
-import validator.contracts.Bag;
-import validator.core.StandardValidator;
+import fabiandev.io.validator.contracts.Validator;
+import fabiandev.io.validator.contracts.Bag;
+import fabiandev.io.validator.core.StandardValidator;
 
 Validator validator = new StandardValidator(request);
 
@@ -37,7 +37,7 @@ Find two basic examples of how to create custom rules below.
 ## Standard Rule
 
 ```java
-import validator.core.BaseRule;
+import fabiandev.io.validator.core.BaseRule;
 
 public class MyRule extends BaseRule {
 
@@ -60,7 +60,7 @@ public class MyRule extends BaseRule {
 ## Regex Rule
 
 ```java
-import validator.rules.Regex;
+import fabiandev.io.validator.rules.Regex;
 
 public class Everything extends Regex {
 
