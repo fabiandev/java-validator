@@ -32,7 +32,7 @@ System.out.println("Validation passed!");
 
 # Extending
 
-Find two basic examples of how to create custom rules below, and add them to the `RulesManager`:
+Find two basic examples of how to create custom rules below, and add them to the `RulesManage`
 
 ```java
 import io.fabiandev.validator.core.RulesManager;
@@ -81,4 +81,50 @@ public class Everything extends Regex {
     }
 
 }
+```
+
+# Full Example
+
+```java
+import io.fabiandev.validator.core.BaseRule;
+
+public class ExactNumber extends BaseRule {
+
+  @Override
+    protected void validate() { 
+      int expected = Integer.parseInt(this.ruleValue);
+      int actual = Integer.parseInt(this.inputField.getValue());
+      
+      if (actual != expected)
+      {
+          this.fail();
+      }
+    }
+
+    @Override
+    protected String defaultMessage() {
+        return ":field must contain the number :exact_number.";
+    }
+
+}
+```
+
+```java
+import io.fabiandev.validator.core.RulesManager;
+
+RulesManager.addRule(ExactNumber.class);
+```
+
+```java
+import io.fabiandev.validator.contracts.Validator;
+import io.fabiandev.validator.core.StandardValidator;
+
+Validator validator = new StandardValidator(data);
+
+validator
+    .rule("inputField", "exact_number:10|required")
+    
+
+validator.errors(); // contains "inputField must contain the number 10."
+
 ```
