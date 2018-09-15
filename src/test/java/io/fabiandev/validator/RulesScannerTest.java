@@ -11,9 +11,9 @@ import static org.junit.Assert.*;
 
 public class RulesScannerTest
 {
+    private static final String RULES_PACKAGE = "io.fabiandev.validator.mock";
 
     private RulesScanner scanner;
-    private final String packageToScan = "tests.mock";
 
     @Before
     public void createRulesScanner()
@@ -26,7 +26,7 @@ public class RulesScannerTest
     {
         try
         {
-            List<Class<Rule>> rules = this.scanner.scan(this.packageToScan);
+            List<Class<Rule>> rules = this.scanner.scan(RULES_PACKAGE);
             assertEquals(2, rules.size());
         }
         catch (ClassNotFoundException | IllegalAccessException e)

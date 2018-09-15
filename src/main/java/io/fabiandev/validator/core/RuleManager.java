@@ -12,7 +12,6 @@ import java.util.Map;
 
 public class RuleManager
 {
-
     private Map<String, Class<Rule>> rules = new HashMap<String, Class<Rule>>();
 
     public RuleManager()

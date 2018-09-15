@@ -14,9 +14,11 @@ import java.util.Map;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 
 public class InputFieldTest
 {
+    private static final String RULES_PACKAGE = "io.fabiandev.validator.mock";
 
     private RuleManager ruleManager;
 
@@ -29,7 +31,7 @@ public class InputFieldTest
     @Before
     public void createInputField()
     {
-        this.ruleManager = new RuleManager("tests.mock");
+        this.ruleManager = new RuleManager(RULES_PACKAGE);
 
         Map<String, Field> inputFields = new HashMap<String, Field>();
 
@@ -43,26 +45,26 @@ public class InputFieldTest
         this.inputFieldWithoutValue = new InputField("test");
         this.inputFieldWithValue = new InputField("test2", "value");
 
-        this.inputFieldWithValue.addRule(rule1.toString(), this.rule1);
-        this.inputFieldWithValue.addRule(rule2.toString(), this.rule2);
-        this.inputFieldWithoutValue.addRule(rule2.toString(), this.rule2);
+        this.inputFieldWithValue.addRule(this.rule1.toString(), this.rule1);
+        this.inputFieldWithValue.addRule(this.rule2.toString(), this.rule2);
+        this.inputFieldWithoutValue.addRule(this.rule2.toString(), this.rule2);
     }
 
     @Test
     public void testHasRule()
     {
-        assertTrue(this.inputFieldWithValue.hasRule(rule1.toString()));
-        assertFalse(this.inputFieldWithoutValue.hasRule(rule1.toString()));
+        assertTrue(this.inputFieldWithValue.hasRule(this.rule1.toString()));
+        assertFalse(this.inputFieldWithoutValue.hasRule(this.rule1.toString()));
 
-        assertTrue(this.inputFieldWithValue.hasRule(rule2.toString()));
-        assertTrue(this.inputFieldWithoutValue.hasRule(rule2.toString()));
+        assertTrue(this.inputFieldWithValue.hasRule(this.rule2.toString()));
+        assertTrue(this.inputFieldWithoutValue.hasRule(this.rule2.toString()));
     }
 
     @Test
     public void testGetRule()
     {
         assertEquals(this.rule1, this.inputFieldWithValue.getRule(this.rule1.toString()));
-        assertEquals(null, this.inputFieldWithoutValue.getRule(this.rule1.toString()));
+        assertNull(this.inputFieldWithoutValue.getRule(this.rule1.toString()));
 
         assertEquals(this.rule2, this.inputFieldWithValue.getRule(this.rule2.toString()));
         assertEquals(this.rule2, this.inputFieldWithoutValue.getRule(this.rule2.toString()));

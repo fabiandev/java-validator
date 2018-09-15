@@ -17,7 +17,9 @@ import static org.junit.Assert.*;
 public class RuleManagerTest
 {
 
-    RuleManager ruleManager;
+    private static final String RULES_PACKAGE = "io.fabiandev.validator.mock";
+
+    private RuleManager ruleManager;
 
     @Before
     public void test()
@@ -45,7 +47,7 @@ public class RuleManagerTest
     @Test
     public void testAddRulesFromPackage()
     {
-        this.ruleManager.addRulesFromPackage("tests.mock");
+        this.ruleManager.addRulesFromPackage(RULES_PACKAGE);
         assertEquals(2, this.ruleManager.numRules());
         assertTrue(this.ruleManager.hasRule("test_rule1"));
         assertTrue(this.ruleManager.hasRule("test_rule2"));
@@ -54,14 +56,14 @@ public class RuleManagerTest
     @Test
     public void testAddRulesFromNonExistingPackage()
     {
-        this.ruleManager.addRulesFromPackage("some.not.existing.package");
+        this.ruleManager.addRulesFromPackage(String.format("%s.%s", RULES_PACKAGE, "404"));
         assertEquals(0, this.ruleManager.numRules());
     }
 
     @Test
     public void testMakeRule()
     {
-        this.ruleManager.addRulesFromPackage("tests.mock");
+        this.ruleManager.addRulesFromPackage(RULES_PACKAGE);
 
         Map<String, Field> inputFields = new HashMap<String, Field>();
 
