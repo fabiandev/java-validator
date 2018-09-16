@@ -123,8 +123,10 @@ Validator validator = new StandardValidator(data);
 
 validator
     .rule("inputField", "exact_number:10|required")
+    .messsage("inputField.exact_number", "Field ':field should' contain the number :exact_number.")
     
 
-validator.errors(); // contains "inputField must contain the number 10."
+validator.validate();
+validator.errors(); // contains "Field 'inputField' should contain the number 10."
 
 ```
