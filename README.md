@@ -5,9 +5,9 @@ A simple and extensible validation utility for Java.
 # Usage
 
 ```java
-import validator.contracts.Validator;
-import validator.contracts.Bag;
-import validator.core.StandardValidator;
+import io.fabiandev.validator.contracts.Validator;
+import io.fabiandev.validator.contracts.Bag;
+import io.fabiandev.validator.core.StandardValidator;
 
 Validator validator = new StandardValidator(request);
 
@@ -32,12 +32,18 @@ System.out.println("Validation passed!");
 
 # Extending
 
-Find two basic examples of how to create custom rules below.
+Find two basic examples of how to create custom rules below, and add them to the `RulesManage`
+
+```java
+import io.fabiandev.validator.core.RulesManager;
+
+RulesManager.addRule(MyRule.class);
+```
 
 ## Standard Rule
 
 ```java
-import validator.core.BaseRule;
+import io.fabiandev.validator.core.BaseRule;
 
 public class MyRule extends BaseRule {
 
@@ -60,7 +66,7 @@ public class MyRule extends BaseRule {
 ## Regex Rule
 
 ```java
-import validator.rules.Regex;
+import io.fabiandev.validator.rules.Regex;
 
 public class Everything extends Regex {
 
@@ -75,4 +81,52 @@ public class Everything extends Regex {
     }
 
 }
+```
+
+# Full Example
+
+```java
+import io.fabiandev.validator.core.BaseRule;
+
+public class ExactNumber extends BaseRule {
+
+  @Override
+    protected void validate() { 
+      int expected = Integer.parseInt(this.ruleValue);
+      int actual = Integer.parseInt(this.inputField.getValue());
+      
+      if (actual != expected)
+      {
+          this.fail();
+      }
+    }
+
+    @Override
+    protected String defaultMessage() {
+        return ":field must contain the number :exact_number.";
+    }
+
+}
+```
+
+```java
+import io.fabiandev.validator.core.RulesManager;
+
+RulesManager.addRule(ExactNumber.class);
+```
+
+```java
+import io.fabiandev.validator.contracts.Validator;
+import io.fabiandev.validator.core.StandardValidator;
+
+Validator validator = new StandardValidator(data);
+
+validator
+    .rule("inputField", "exact_number:10|required")
+    .messsage("inputField.exact_number", "Field ':field should' contain the number :exact_number.")
+    
+
+validator.validate();
+validator.errors(); // contains "Field 'inputField' should contain the number 10."
+
 ```
