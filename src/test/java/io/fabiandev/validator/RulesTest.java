@@ -3,6 +3,7 @@ package io.fabiandev.validator;
 import io.fabiandev.validator.contracts.Request;
 import io.fabiandev.validator.contracts.Validator;
 import io.fabiandev.validator.core.MapRequest;
+import io.fabiandev.validator.core.RulesManager;
 import io.fabiandev.validator.core.StandardValidator;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,8 +36,6 @@ public class RulesTest
     @Test
     public void testRequired()
     {
-        Validator validator = this.validator;
-
         validator.rule("email", "required");
 
         assertFalse(validator.fails());
@@ -49,8 +48,6 @@ public class RulesTest
     @Test
     public void testRequiredIfFieldIsMissingInRequest()
     {
-        Validator validator = this.validator;
-
         validator.rule("tos_accepted", "required");
 
         assertTrue(validator.fails());
