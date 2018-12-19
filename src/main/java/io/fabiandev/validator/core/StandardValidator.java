@@ -15,17 +15,13 @@ public class StandardValidator implements Validator
 {
 
     private static final String DEFAULT_RULES_PACKAGE = "io.fabiandev.validator.rules";
-    private static boolean RULES_LOADED = false;
 
     private Map<String, Field> inputFields;
     private Bag errors;
 
     public StandardValidator(Request request)
     {
-        if (!RULES_LOADED)
-        {
-            RULES_LOADED = RulesManager.addRulesFromPackage(DEFAULT_RULES_PACKAGE);
-        }
+        RulesManager.addRulesFromPackage(DEFAULT_RULES_PACKAGE);
 
         this.inputFields = new HashMap<>();
         this.errors = new MessageBag();
